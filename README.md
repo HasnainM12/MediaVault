@@ -1,37 +1,47 @@
-# Multi-threaded Chat System
-A Java chat application I built to understand networking concepts and multi-threading. It uses Socket Programming to enable real-time communication between multiple clients through a central server.
+# MediaVault
+
+A web application I built to track my movies, TV shows, and anime collection. It uses TMDB and MyAnimeList APIs to fetch media information and lets me add personal ratings and reviews.
+
 ## Features
-- Real-time messaging between multiple clients
-- Username system with join/leave notifications
-- Server handles multiple connections simultaneously
-- Clean console-based interface
+
+- Track movies, TV shows, and anime
+- Search through TMDB and MyAnimeList databases
+- Add personal ratings and reviews
+- Clean interface using Tailwind CSS
+
 ## Built With
-- Java
-- Socket Programming
-- Maven
-- Multi-threading
+
+- Python/Flask
+- TMDB & Jikan APIs
+- HTML/Tailwind CSS
+- JSON storage
+
 ## Setup
-Build the project with Maven:
+
+Create and activate virtual environment:
+
 ```bash
-mvn clean install
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin activate  # Mac/Linux
 ```
-Run the server:
+
+Install requirements:
+
 ```bash
-mvn exec:java -D"exec.mainClass=basicchat.App" -D"exec.args=server"
+pip install -r requirements.txt
 ```
-In a new terminal, run a client:
-```bash
-mvn exec:java -D"exec.mainClass=basicchat.App" -D"exec.args=client"
-```
+
 Remember to:
-- Keep server terminal running
-- Start new terminal for each client
-- Enter username when prompted
-- Type 'exit' to quit client
+
+- Add TMDB API key to .env file
+- Run from project root: `python src/app.py`
+- Run deactivate before instantiating another virtual environment
+
 ## Future Plans
-- Admin commands (kick/ban)
-- Private messaging
-- Chat rooms
-- Message history
-- Simple file sharing
-- GUI interface
+
+- User accounts
+- Better search filters
+- Watchlist feature
+- More anime tracking features
+- Polished UI
