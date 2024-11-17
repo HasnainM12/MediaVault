@@ -1,0 +1,8 @@
+flask==3.0.0
+requests==2.31.0
+python-dotenv==1.0.0
+jikanpy==4.3.2
+tmdbv3api==1.9.0
+flask-sqlalchemy==3.1.1
+python-dotenv==1.0.0
+Werkzeug==3.0.1

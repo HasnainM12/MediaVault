@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {% for media in media_list %}
+  <div class="bg-white p-4 rounded-lg shadow">
+    <div class="flex justify-between items-start">
+      <div>
+        <a
+          href="{{ url_for('view_media', index=loop.index0) }}"
+          class="text-xl font-bold hover:text-blue-600"
+          >{{ media.name }}</a
+        >
+        <p class="text-gray-600">{{ media.media_type }}</p>
+        {% if media.release_date %}
+        <p class="text-sm text-gray-500">Released: {{ media.release_date }}</p>
+        {% endif %} {% if media.rating %}
+        <p class="text-sm text-gray-500">API Rating: {{ media.rating }}/10</p>
+        {% endif %} {% if media.user_rating %}
+        <p class="text-sm text-blue-600">
+          Your Rating: {{ media.user_rating }}/10
+        </p>
+        {% endif %}
+      </div>
+      <form
+        action="{{ url_for('delete_media', index=loop.index0) }}"
+        method="POST"
+      >
+        <button class="text-red-500 hover:text-red-700">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </form>
+    </div>
+    {% if media.overview %}
+    <p class="mt-2 text-sm text-gray-700 line-clamp-3">{{ media.overview }}</p>
+    {% endif %} {% if media.genres %}
+    <div class="mt-2 flex flex-wrap gap-1">
+      {% for genre in media.genres %}
+      <span class="bg-gray-200 px-2 py-1 rounded-full text-xs"
+        >{{ genre }}</span
+      >
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="col-span-full text-center py-8 text-gray-500">
+    No media added yet. Click "Add Media" to get started!
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

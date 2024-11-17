@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <form class="mb-8" method="GET">
+        <div class="flex gap-4 mb-4">
+            <select name="type" class="flex-1 p-2 border rounded">
+                <option value="movie" {% if media_type == 'movie' %}selected{% endif %}>Movie</option>
+                <option value="tv" {% if media_type == 'tv' %}selected{% endif %}>TV Show</option>
+                <option value="anime" {% if media_type == 'anime' %}selected{% endif %}>Anime</option>
+            </select>
+            <input type="text" name="query" value="{{ query }}" placeholder="Search..." 
+                   class="flex-[3] p-2 border rounded">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Search
+            </button>
+        </div>
+    </form>
+
+    {% if results %}
+    <div class="space-y-4">
+        {% for result in results %}
+        <div class="bg-white p-4 rounded-lg shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-lg font-semibold">
+                        {{ result.title or result.name }}
+                    </h3>
+                    {% if result.release_date or result.first_air_date or result.year %}
+                    <p class="text-sm text-gray-600">
+                        Released: {{ result.release_date or result.first_air_date or result.year }}
+                    </p>
+                    {% endif %}
+                </div>
+                <form action="{{ url_for('add_media') }}" method="POST">
+                    <input type="hidden" name="type" value="{{ media_type }}">
+                    <input type="hidden" name="id" value="{{ result.id or result.mal_id }}">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                        Add
+                    </button>
+                </form>
+            </div>
+            {% if result.overview or result.synopsis %}
+            <p class="mt-2 text-sm text-gray-700 line-clamp-2">
+                {{ result.overview or result.synopsis }}
+            </p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% elif query %}
+    <div class="text-center py-8 text-gray-500">
+        No results found for "{{ query }}"
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block content %}
+<div class="max-w-4xl mx-auto">
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <!-- Media Details -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">{{ media.name }}</h1>
+      <div class="flex flex-wrap gap-4 text-gray-600 mb-4">
+        <span>{{ media.media_type }}</span>
+        {% if media.release_date %}
+        <span>Released: {{ media.release_date }}</span>
+        {% endif %} {% if media.rating %}
+        <span>API Rating: {{ media.rating }}/10</span>
+        {% endif %}
+      </div>
+
+      {% if media.genres %}
+      <div class="flex flex-wrap gap-2 mb-4">
+        {% for genre in media.genres %}
+        <span class="bg-gray-200 px-3 py-1 rounded-full text-sm"
+          >{{ genre }}</span
+        >
+        {% endfor %}
+      </div>
+      {% endif %} {% if media.overview %}
+      <p class="text-gray-700">{{ media.overview }}</p>
+      {% endif %}
+    </div>
+
+    <!-- User Review Section -->
+    <div class="border-t pt-6">
+      <h2 class="text-2xl font-bold mb-4">Your Review</h2>
+
+      {% if media.user_review %}
+      <!-- Existing Review -->
+      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <div class="flex justify-between items-center mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold">{{ media.user_rating }}/10</span>
+            <span class="text-gray-500">rated on {{ media.review_date }}</span>
+          </div>
+        </div>
+        <p class="text-gray-700">{{ media.user_review }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Review Form -->
+      <form
+        action="{{ url_for('add_review', index=index) }}"
+        method="POST"
+        class="space-y-4"
+      >
+        <div>
+          <label
+            for="rating"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Rating (0-10)</label
+          >
+          <input
+            type="number"
+            name="rating"
+            id="rating"
+            min="0"
+            max="10"
+            step="0.5"
+            value="{{ media.user_rating or '' }}"
+            class="w-32 border rounded-md px-3 py-2"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            for="review"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Review</label
+          >
+          <textarea
+            name="review"
+            id="review"
+            rows="4"
+            class="w-full border rounded-md px-3 py-2"
+            required
+          >
+{{ media.user_review or '' }}</textarea
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+        >
+          {{ 'Update Review' if media.user_review else 'Add Review' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
